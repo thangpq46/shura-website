@@ -5,7 +5,7 @@
 /* ── Hero ──────────────────────────────────────────────────────────────── */
 .hero{padding:118px 0 84px;position:relative}
 .hero h1{font-size:clamp(42px,7.4vw,86px);margin:22px 0 22px;font-weight:800;letter-spacing:-.035em}
-.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
 .hero h1 .line i{display:block;font-style:normal;transform:translateY(110%);
   animation:riseIn 1s var(--ease) forwards}
 .hero h1 .line:nth-child(2) i{animation-delay:.12s}
@@ -52,7 +52,9 @@
 @keyframes slide{to{transform:translateX(-50%)}}
 
 /* ── Section frame ─────────────────────────────────────────────────────── */
-section{padding:100px 0}
+/* Sections carry .wrap, whose `padding:0 24px` would otherwise win on
+   specificity and flatten the vertical rhythm — so qualify the selector. */
+section.wrap{padding:100px 24px}
 .sec-head{max-width:660px;margin-bottom:50px}
 .sec-head h2{font-size:clamp(28px,4vw,42px);margin:18px 0 16px;font-weight:750}
 .sec-head p{color:var(--body);font-size:16.5px;margin:0}
@@ -114,6 +116,14 @@ section{padding:100px 0}
 
 @media(max-width:640px){
   .hero{padding:78px 0 58px}
-  section{padding:72px 0}
+  section.wrap{padding:72px 24px}
   .cta{padding:46px 24px}
+}
+
+/* The hero headline starts pushed out of its clipping mask and is pulled up by
+   the riseIn animation. site.css kills animations under reduced motion, so
+   without this the title would stay parked below the fold of its own mask. */
+@media (prefers-reduced-motion:reduce){
+  .hero h1 .line{overflow:visible}
+  .hero h1 .line i{transform:none}
 }
